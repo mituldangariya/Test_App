@@ -1,19 +1,28 @@
 ﻿@model IEnumerable<Test_App.Models.Employee>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
+}
 
 <h3>Employees</h3>
 
 <a asp-action="Create" class="btn btn-primary mb-2">Add Employee</a>
 
 <table class="table table-bordered">
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Salary</th>
-        <th>Photo</th>
-        <th>Action</th>
-    </tr>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Salary</th>
+            <th>Photo</th>
+            <th>Action</th>
+        </tr>
+    </thead>
 
+    <tbody>
     @foreach (var e in Model)
     {
         <tr>
@@ -28,12 +37,47 @@
                 }
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@e.EmployeeId">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@e.EmployeeId"
-                   onclick="return confirm('Delete this employee?')">
-                    Delete
+                <a asp-action="Edit"
+                   asp-route-id="@e.EmployeeId"
+                   class="btn btn-sm btn-warning">
+                    Edit
                 </a>
+
+                @if (role == "Admin")
+                {
+                    <form id="deleteForm-@e.EmployeeId"
+                          asp-action="Delete"
+                          asp-route-id="@e.EmployeeId"
+                          method="post"
+                          style="display:inline">
+
+                        <button type="button"
+                                class="btn btn-sm btn-danger"
+                                onclick="confirmDelete(@e.EmployeeId)">
+                            Delete
+                        </button>
+                    </form>
+                }
             </td>
         </tr>
     }
+    </tbody>
 </table>
+<script>
+    function confirmDelete(empId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This employee will be deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('deleteForm-' + empId).submit();
+            }
+        });
+    }
+</script>

@@ -60,7 +60,7 @@ namespace Test_App.Controllers
 
             SqlCommand cmd;
 
-            // ===== ADMIN: SEE ALL =====
+           
             if (role == "Admin")
             {
                 cmd = new SqlCommand("sp_Employee_GetAll", con);

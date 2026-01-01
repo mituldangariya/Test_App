@@ -1,4 +1,10 @@
 ﻿@model Test_App.Models.Employee
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
+}
 
 <h3>Edit Employee</h3>
 
@@ -6,35 +12,72 @@
     <input type="hidden" asp-for="EmployeeId" />
     <input type="hidden" asp-for="Photo" />
 
+    <!-- ===== NAME (Both can edit) ===== -->
     <div class="mb-2">
         <label>Name</label>
         <input asp-for="FullName" class="form-control" />
     </div>
 
+    <!-- ===== EMAIL ===== -->
     <div class="mb-2">
         <label>Email</label>
-        <input asp-for="Email" class="form-control" readonly />
+
+        @* USER can edit Email *@
+        @if (role == "User")
+        {
+            <input asp-for="Email" class="form-control" />
+        }
+        else
+        {
+            @* ADMIN cannot edit Email *@
+            <input asp-for="Email" class="form-control" readonly />
+        }
     </div>
 
+    <!-- ===== PHONE (Both can edit) ===== -->
     <div class="mb-2">
         <label>Phone</label>
         <input asp-for="Phone" class="form-control" />
     </div>
 
+    <!-- ===== SALARY ===== -->
     <div class="mb-2">
         <label>Salary</label>
-        <input asp-for="Salary" class="form-control" />
+
+        @* ADMIN can edit Salary *@
+        @if (role == "Admin")
+        {
+            <input asp-for="Salary" class="form-control" />
+        }
+        else
+        {
+            @* USER cannot edit Salary *@
+            <input asp-for="Salary" class="form-control" readonly />
+        }
     </div>
 
+    <!-- ===== PHOTO ===== -->
     <div class="mb-3">
         <label>Photo</label>
         <input asp-for="PhotoFile" type="file" class="form-control" />
 
-        @if (Model != null && !string.IsNullOrEmpty(Model.Photo))
+        @if (!string.IsNullOrEmpty(Model.Photo))
         {
             <img src="~/EmployeeImages/@Model.Photo" width="80" />
         }
     </div>
 
-    <button class="btn btn-primary">Update</button>
+   @*  <button class="btn btn-primary">Update</button> *@
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">
+            Update
+        </button>
+
+        <a asp-action="Index"
+           asp-controller="Employee"
+           class="btn btn-secondary ms-2">
+            Cancel
+        </a>
+    </div>
+
 </form>
