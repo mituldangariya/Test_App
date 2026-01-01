@@ -1,0 +1,40 @@
+﻿@model Test_App.Models.Employee
+
+<h3>Edit Employee</h3>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="EmployeeId" />
+    <input type="hidden" asp-for="Photo" />
+
+    <div class="mb-2">
+        <label>Name</label>
+        <input asp-for="FullName" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" readonly />
+    </div>
+
+    <div class="mb-2">
+        <label>Phone</label>
+        <input asp-for="Phone" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Salary</label>
+        <input asp-for="Salary" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Photo</label>
+        <input asp-for="PhotoFile" type="file" class="form-control" />
+
+        @if (Model != null && !string.IsNullOrEmpty(Model.Photo))
+        {
+            <img src="~/EmployeeImages/@Model.Photo" width="80" />
+        }
+    </div>
+
+    <button class="btn btn-primary">Update</button>
+</form>

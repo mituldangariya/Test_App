@@ -1,0 +1,35 @@
+﻿]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Test_App_ication_Crud</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+
+    @using Microsoft.AspNetCore.Http
+    @inject IHttpContextAccessor HttpContextAccessor
+
+    @{
+        var userName = HttpContextAccessor.HttpContext.Session.GetString("UserName");
+        var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
+    }
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom mb-3">
+        <!-- your navbar code (unchanged) -->
+    </nav>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ✅ THIS LINE FIXES THE ERROR -->
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

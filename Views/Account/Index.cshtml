@@ -1,0 +1,9 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+{
+    <div class="alert alert-info">
+        You are viewing <strong>ALL employees</strong> (Admin mode)
+    </div>
+}

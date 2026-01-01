@@ -1,0 +1,39 @@
+﻿@model Test_App.Models.Employee
+
+<h3>Add Employee</h3>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+
+    <div class="mb-2">
+        <label>Name</label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-2">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-2">
+        <label>Phone</label>
+        <input asp-for="Phone" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Salary</label>
+        <input asp-for="Salary" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Photo</label>
+        <input asp-for="PhotoFile" type="file" class="form-control" />
+    </div>
+
+    <button class="btn btn-success">Save</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
